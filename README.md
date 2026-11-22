@@ -88,6 +88,7 @@ Prasyarat: **Node.js 22+**, **pnpm 9/10**, **PostgreSQL 16** (atau Docker).
 ```bash
 # 1. Install dependency
 pnpm install
+pnpm prisma generate      # generate Prisma Client (juga jalan otomatis via postinstall)
 
 # 2. Salin environment
 cp .env.example .env
