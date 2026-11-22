@@ -93,11 +93,66 @@ export class MidtransPaymentProvider implements PaymentProvider {
   }
 }
 
-export function getPaymentProvider(): PaymentProvider {
-  const key = process.env.MIDTRANS_SERVER_KEY?.trim();
-  const provider = process.env.PAYMENT_PROVIDER?.trim().toLowerCase();
+/** Xendit Invoice API (sandbox maupun production, ditentukan oleh key). */
+export class XenditPaymentProvider implements PaymentProvider {
+  readonly name = "xendit";
 
-  if (provider === "midtrans" && key) {
+  constructor(private readonly secretKey: string) {}
+
+  async createPayment(input: PaymentInit): Promise<PaymentInitResult> {
+    const appUrl = process.env.APP_URL ?? "http://localhost:3015";
+
+    const res = await fetch("https://api.xendit.co/v2/invoices", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Basic ${Buffer.from(`${this.secretKey}:`).toString("base64")}`,
+      },
+      body: JSON.stringify({
+        external_id: input.invoiceNo,
+        amount: input.amount,
+        payer_email: input.customer.email,
+        description: input.itemName.slice(0, 200),
+        customer: {
+          given_names: input.customer.name,
+          email: input.customer.email,
+          mobile_number: input.customer.phone,
+        },
+        success_redirect_url: `${appUrl}/invoice/${input.invoiceNo}`,
+        failure_redirect_url: `${appUrl}/invoice/${input.invoiceNo}`,
+        invoice_duration: 86400,
+      }),
+      signal: AbortSignal.timeout(15_000),
+    });
+
+    if (!res.ok) {
+      const text = await res.text();
+      throw new Error(`Xendit error ${res.status}: ${text.slice(0, 200)}`);
+    }
+
+    const data = (await res.json()) as { id: string; invoice_url: string };
+
+    return {
+      provider: this.name,
+      reference: data.id,
+      redirectUrl: data.invoice_url,
+      raw: data,
+    };
+  }
+}
+
+export function getPaymentProvider(): PaymentProvider {
+  const mode = process.env.PAYMENT_PROVIDER?.trim().toLowerCase();
+
+  if (mode === "xendit") {
+    const key = process.env.XENDIT_SECRET_KEY?.trim();
+    if (!key) throw new Error("PAYMENT_PROVIDER=xendit tapi XENDIT_SECRET_KEY kosong");
+    return new XenditPaymentProvider(key);
+  }
+
+  const key = process.env.MIDTRANS_SERVER_KEY?.trim();
+
+  if (mode === "midtrans" && key) {
     return new MidtransPaymentProvider(key, process.env.MIDTRANS_IS_PRODUCTION === "true");
   }
   return new MockPaymentProvider();

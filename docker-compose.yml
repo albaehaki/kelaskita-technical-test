@@ -31,6 +31,7 @@ services:
       PAYMENT_CALLBACK_TOKEN: ${PAYMENT_CALLBACK_TOKEN:-callback-token-demo}
       MIDTRANS_SERVER_KEY: ${MIDTRANS_SERVER_KEY:-}
       MIDTRANS_IS_PRODUCTION: ${MIDTRANS_IS_PRODUCTION:-false}
+      XENDIT_SECRET_KEY: ${XENDIT_SECRET_KEY:-}
       # Sengaja hardcoded ke nama service: container app harus memanggil n8n
       # lewat network Docker, bukan localhost (yang menunjuk ke container itu sendiri).
       N8N_WEBHOOK_URL: http://n8n:5678/webhook/kelaskita-order
