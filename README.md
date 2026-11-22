@@ -368,3 +368,7 @@ Dijalankan pada mesin pengembangan (Windows 11, Node 22.23, Docker Desktop, Post
 > n8n diuji pada instance terpisah (port 5679, profil `automation`) supaya tidak
 > mengganggu instance n8n lain di mesin pengembangan.
 
+
+## 14. Dokumen alur
+
+Panduan bergambar (17 halaman): [`docs/ALUR-LENGKAP.pdf`](./docs/ALUR-LENGKAP.pdf) — alur peserta dari beranda sampai materi, dan alur admin dari login sampai kelola artikel.
