@@ -20,11 +20,7 @@ services:
       retries: 12
 
   app:
-    build:
-      context: .
-      # attestation/provenance dimatikan: buildx di Docker Desktop gagal
-      # export manifest list saat tag image sudah ada ("already exists").
-      provenance: false
+    build: .
     container_name: kelaskita-app
     restart: unless-stopped
     environment:
@@ -35,7 +31,9 @@ services:
       PAYMENT_CALLBACK_TOKEN: ${PAYMENT_CALLBACK_TOKEN:-callback-token-demo}
       MIDTRANS_SERVER_KEY: ${MIDTRANS_SERVER_KEY:-}
       MIDTRANS_IS_PRODUCTION: ${MIDTRANS_IS_PRODUCTION:-false}
-      N8N_WEBHOOK_URL: ${N8N_WEBHOOK_URL:-http://n8n:5678/webhook/kelaskita-order}
+      # Sengaja hardcoded ke nama service: container app harus memanggil n8n
+      # lewat network Docker, bukan localhost (yang menunjuk ke container itu sendiri).
+      N8N_WEBHOOK_URL: http://n8n:5678/webhook/kelaskita-order
       INTERNAL_SECRET: ${INTERNAL_SECRET:-internal-secret-demo}
     ports:
       - "3015:3015"
