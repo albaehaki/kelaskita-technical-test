@@ -20,7 +20,11 @@ services:
       retries: 12
 
   app:
-    build: .
+    build:
+      context: .
+      # attestation/provenance dimatikan: buildx di Docker Desktop gagal
+      # export manifest list saat tag image sudah ada ("already exists").
+      provenance: false
     container_name: kelaskita-app
     restart: unless-stopped
     environment:
