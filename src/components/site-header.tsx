@@ -18,6 +18,9 @@ export function SiteHeader() {
           <Link href="/artikel" className="hover:text-[var(--color-ink)]">
             Artikel
           </Link>
+          <Link href="/kelas-saya" className="hover:text-[var(--color-ink)]">
+            Kelas Saya
+          </Link>
           <Link href="/#cara-kerja" className="hover:text-[var(--color-ink)]">
             Cara Kerja
           </Link>

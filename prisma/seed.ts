@@ -200,7 +200,7 @@ async function main() {
     const category = await prisma.category.findUniqueOrThrow({
       where: { slug: course.category },
     });
-    await prisma.course.upsert({
+    const saved = await prisma.course.upsert({
       where: { slug: course.slug },
       update: {
         title: course.title,
@@ -226,8 +226,29 @@ async function main() {
         categoryId: category.id,
       },
     });
+
+    // Materi LMS: satu modul per poin silabus (idempotent via unique courseId+order).
+    for (const [index, topic] of course.syllabus.entries()) {
+      const order = index + 1;
+      await prisma.lesson.upsert({
+        where: { courseId_order: { courseId: saved.id, order } },
+        update: { title: topic },
+        create: {
+          courseId: saved.id,
+          order,
+          title: topic,
+          content:
+            `Modul ini membahas ${topic.toLowerCase()} dengan pendekatan praktik.\n\n` +
+            `Kamu akan melihat contoh kasus nyata, mengerjakan latihan singkat, lalu ` +
+            `membandingkan hasilnya dengan pembahasan. Fokusnya bukan menghafal sintaks, ` +
+            `tapi tahu kapan dan mengapa memakai pendekatan tersebut.\n\n` +
+            `Latihan: terapkan materi ini pada proyek akhir kelasmu, lalu catat satu ` +
+            `keputusan teknis yang kamu ambil beserta alasannya.`,
+        },
+      });
+    }
   }
-  console.log(`  ✓ ${courses.length} kelas`);
+  console.log(`  ✓ ${courses.length} kelas + materi LMS`);
 
   for (const article of articles) {
     await prisma.article.upsert({
