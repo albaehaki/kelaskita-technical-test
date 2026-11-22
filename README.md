@@ -234,6 +234,9 @@ Dua workflow siap import ada di `n8n/workflows/`:
 Node HTTP di workflow bisa diganti/ditambah ke **Telegram / WhatsApp / Google Sheets**
 tanpa mengubah aplikasi — aplikasi hanya mengenal satu kontrak event.
 
+📘 Alur lengkap (siapa memanggil siapa, port, akun, checklist troubleshooting):
+[`docs/ALUR-AUTOMATION.md`](./docs/ALUR-AUTOMATION.md)
+
 ---
 
 ## 8. Struktur folder
