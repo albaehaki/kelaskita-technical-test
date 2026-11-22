@@ -17,6 +17,9 @@ Backend: **Route Handlers Next.js + Prisma ORM + PostgreSQL** (bukan Firebase)
 - Checkout membuat invoice + transaksi pembayaran (status `PENDING`).
 - Halaman pembayaran (mock gateway) dan halaman invoice untuk cek status.
 - Halaman artikel (list & detail) yang isinya dikelola dari CMS.
+- **Area peserta (LMS)**: masuk dengan email + nomor invoice yang sudah lunas, lalu membuka
+  materi per modul (`/kelas-saya`). Akses dibatasi di server: hanya invoice `PAID` milik email
+  tersebut yang bisa membuka materi.
 
 ### CMS admin (`/admin`)
 - Login dengan session JWT httpOnly (password di-hash bcrypt).
@@ -32,7 +35,7 @@ Backend: **Route Handlers Next.js + Prisma ORM + PostgreSQL** (bukan Firebase)
 | Integrasi | Implementasi |
 |---|---|
 | **API eksternal** | [API Wilayah Indonesia](https://www.emsifa.com/api-wilayah-indonesia/) — provinsi & kota/kabupaten. Di-fetch di server, cache 24 jam, punya fallback statis bila API down. |
-| **Payment gateway** | Strategy pattern `PaymentProvider`: `MockPaymentProvider` (default, langsung jalan) & `MidtransPaymentProvider` (Snap sandbox, aktif via env). |
+| **Payment gateway** | Strategy pattern `PaymentProvider`: `MockPaymentProvider` (default), `MidtransPaymentProvider` (Snap sandbox), dan `XenditPaymentProvider` (Invoice API). Aktif via `PAYMENT_PROVIDER`. |
 | **Automation n8n** | 2 workflow siap import: notifikasi order real-time + rekap harian 07:00. Lihat [`n8n/`](./n8n). |
 
 ---
@@ -145,10 +148,11 @@ docker compose --profile automation up -d
 | `DATABASE_URL` | ✅ | — | Koneksi PostgreSQL |
 | `SESSION_SECRET` | ✅ | — | Kunci tanda tangan JWT session admin |
 | `APP_URL` | — | `http://localhost:3015` | Base URL aplikasi |
-| `PAYMENT_PROVIDER` | — | `mock` | `mock` atau `midtrans` |
+| `PAYMENT_PROVIDER` | — | `mock` | `mock`, `midtrans`, atau `xendit` |
 | `PAYMENT_CALLBACK_TOKEN` | ✅ | — | Shared token untuk `POST /api/payments/webhook` |
 | `MIDTRANS_SERVER_KEY` | — | kosong | Server key Snap sandbox (jika `PAYMENT_PROVIDER=midtrans`) |
 | `MIDTRANS_IS_PRODUCTION` | — | `false` | `true` untuk production Midtrans |
+| `XENDIT_SECRET_KEY` | — | kosong | Secret key Xendit (sandbox diawali `xnd_development_`) |
 | `N8N_WEBHOOK_URL` | — | kosong | Webhook n8n untuk event order; kosong = event hanya dicatat lokal |
 | `INTERNAL_SECRET` | ✅ | — | Shared secret endpoint internal (dipanggil n8n) |
 
@@ -313,8 +317,8 @@ Dockerfile · docker-compose.yml · docker-entrypoint.sh
 
 ## 11. Keterbatasan & langkah berikutnya
 
-- Belum ada halaman "kelas saya" untuk peserta — akses materi saat ini dikirim via email
-  (di luar scope test).
+- Materi LMS berasal dari silabus saat seed; editor materi di CMS belum dibuat.
+- Belum ada progress tracking, kuis, atau sertifikat otomatis.
 - Mock gateway tidak memverifikasi tanda tangan kriptografis (Midtrans asli memakai
   `signature_key`); adaptor Midtrans tinggal ditambah verifikasi tersebut.
 - Belum ada rate limiting pada endpoint checkout/login.

@@ -8,7 +8,9 @@ WORKDIR /app
 RUN corepack enable && corepack prepare pnpm@9.15.4 --activate
 
 COPY package.json pnpm-lock.yaml ./
-RUN pnpm install --frozen-lockfile
+# --ignore-scripts: postinstall root (`prisma generate`) butuh folder prisma/
+# yang belum di-COPY di tahap ini; generate dijalankan setelah COPY . .
+RUN pnpm install --frozen-lockfile --ignore-scripts
 
 COPY . .
 RUN pnpm prisma generate && pnpm build
