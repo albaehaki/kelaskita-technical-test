@@ -110,6 +110,12 @@ Build produksi:
 pnpm build && pnpm start
 ```
 
+Verifikasi cepat end-to-end (butuh aplikasi sedang berjalan):
+
+```bash
+pnpm smoke        # BASE_URL=http://localhost:3015 ./scripts/smoke-test.sh
+```
+
 ### Menjalankan penuh dengan Docker
 
 ```bash
