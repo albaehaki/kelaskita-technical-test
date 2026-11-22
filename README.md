@@ -321,7 +321,6 @@ Dockerfile · docker-compose.yml · docker-entrypoint.sh
 ---
 
 ## 12. AI disclosure
-
 Sesuai praktik yang jujur: sebagian kode dibantu AI (Hermes Agent), dengan keputusan
 arsitektur, skema data, dan verifikasi dilakukan manual.
 
@@ -333,3 +332,25 @@ arsitektur, skema data, dan verifikasi dilakukan manual.
 - **Contoh hasil AI yang ditolak/diubah**: draft awal memakai satu endpoint `/api/admin/*`
   untuk CRUD; diganti menjadi server actions karena menambah lapisan HTTP tanpa manfaat
   untuk konsumen internal, sekaligus memperkecil permukaan API yang perlu diamankan.
+
+---
+
+## 13. Hasil verifikasi
+
+Dijalankan pada mesin pengembangan (Windows 11, Node 22.23, Docker Desktop, PostgreSQL 16):
+
+| Uji | Hasil |
+|---|---|
+| `pnpm build` | ✅ sukses, 24 route |
+| `pnpm smoke` pada stack Docker (app + db) | ✅ **9/9 lulus** |
+| Fresh clone → install → migrate → seed → build → start | ✅ **9/9 lulus** (port 3020) |
+| Mock payment lalu retry | ✅ `paid` → `duplicate` (idempotent) |
+| Webhook dengan token salah | ✅ `401` |
+| Akses `/admin` tanpa session | ✅ `307` ke login |
+| n8n `order.created` | ✅ eksekusi *success*, notifikasi `source=n8n` masuk dashboard |
+| n8n `order.paid` | ✅ notifikasi "Pembayaran lunas" dari n8n |
+| Seed dijalankan ulang | ✅ idempotent, data tidak bertambah |
+
+> n8n diuji pada instance terpisah (port 5679, profil `automation`) supaya tidak
+> mengganggu instance n8n lain di mesin pengembangan.
+
