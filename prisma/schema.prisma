@@ -1,0 +1,127 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  ADMIN
+}
+
+enum EnrollmentStatus {
+  PENDING
+  PAID
+  EXPIRED
+  CANCELLED
+}
+
+enum PaymentStatus {
+  PENDING
+  PAID
+  FAILED
+  EXPIRED
+}
+
+model User {
+  id           String   @id @default(cuid())
+  name         String
+  email        String   @unique
+  passwordHash String
+  role         Role     @default(ADMIN)
+  createdAt    DateTime @default(now())
+}
+
+model Category {
+  id      String   @id @default(cuid())
+  name    String   @unique
+  slug    String   @unique
+  courses Course[]
+}
+
+model Course {
+  id            String       @id @default(cuid())
+  title         String
+  slug          String       @unique
+  summary       String
+  description   String
+  level         String       @default("Pemula")
+  price         Int
+  durationHours Int          @default(8)
+  coverEmoji    String       @default("🎓")
+  syllabus      String[]
+  published     Boolean      @default(true)
+  categoryId    String
+  category      Category     @relation(fields: [categoryId], references: [id])
+  enrollments   Enrollment[]
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
+
+  @@index([categoryId])
+}
+
+model Enrollment {
+  id          String           @id @default(cuid())
+  invoiceNo   String           @unique
+  studentName String
+  email       String
+  phone       String
+  province    String
+  city        String
+  note        String?
+  amount      Int
+  status      EnrollmentStatus @default(PENDING)
+  courseId    String
+  course      Course           @relation(fields: [courseId], references: [id])
+  payment     Payment?
+  paidAt      DateTime?
+  createdAt   DateTime         @default(now())
+
+  @@index([courseId])
+  @@index([status])
+}
+
+model Payment {
+  id          String        @id @default(cuid())
+  enrollment  Enrollment    @relation(fields: [enrollmentId], references: [id])
+  enrollmentId String       @unique
+  provider    String
+  reference   String?       @unique
+  amount      Int
+  status      PaymentStatus @default(PENDING)
+  paidAt      DateTime?
+  rawCallback Json?
+  createdAt   DateTime      @default(now())
+}
+
+// Idempotency ledger untuk callback payment gateway & webhook n8n
+model WebhookEvent {
+  id          String   @id @default(cuid())
+  eventId     String   @unique
+  source      String
+  payload     Json
+  processedAt DateTime @default(now())
+}
+
+model Article {
+  id        String   @id @default(cuid())
+  title     String
+  slug      String   @unique
+  excerpt   String
+  content   String
+  published Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Notification {
+  id        String   @id @default(cuid())
+  type      String
+  title     String
+  body      String
+  source    String   @default("system")
+  read      Boolean  @default(false)
+  createdAt DateTime @default(now())
+}
