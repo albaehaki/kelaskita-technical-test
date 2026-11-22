@@ -170,6 +170,7 @@ docker compose --profile automation up -d
 | `GET` | `/api/wilayah/cities?provinceId=32` | Kota/kabupaten per provinsi |
 | `POST` | `/api/checkout` | Buat pendaftaran + payment. Body: `courseId, studentName, email, phone, province, city, note?` |
 | `POST` | `/api/payments/mock` | Simulasi pembayaran berhasil (mock gateway) |
+| `POST` | `/api/student/login` | Login peserta: `email` + `invoiceNo` yang sudah `PAID` |
 
 ### Callback payment gateway
 ```bash
@@ -257,6 +258,7 @@ src/
     bayar/[invoice]/     # mock payment page
     invoice/[invoice]/   # status invoice
     artikel/             # blog publik
+    kelas-saya/          # area peserta (LMS): daftar kelas + materi per modul
     admin/               # CMS (layout guard, dashboard, CRUD, server actions)
     api/                 # route handlers
   components/            # header, footer, course card, form, pay button, login
@@ -357,6 +359,9 @@ Dijalankan pada mesin pengembangan (Windows 11, Node 22.23, Docker Desktop, Post
 | n8n `order.created` | ✅ eksekusi *success*, notifikasi `source=n8n` masuk dashboard |
 | n8n `order.paid` | ✅ notifikasi "Pembayaran lunas" dari n8n |
 | Seed dijalankan ulang | ✅ idempotent, data tidak bertambah |
+| LMS: login email + invoice lunas | ✅ `{"ok":true}` → `/kelas-saya` 200, 6 modul terbaca |
+| LMS: invoice palsu | ✅ `401` |
+| LMS: buka materi tanpa login | ✅ `307` ke `/kelas-saya` |
 
 > n8n diuji pada instance terpisah (port 5679, profil `automation`) supaya tidak
 > mengganggu instance n8n lain di mesin pengembangan.
