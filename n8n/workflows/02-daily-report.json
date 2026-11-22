@@ -1,0 +1,88 @@
+{
+  "name": "KelasKita — Daily Report",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "cronExpression",
+              "expression": "0 7 * * *"
+            }
+          ]
+        }
+      },
+      "id": "b1b2c3d4-0001-4000-8000-000000000001",
+      "name": "Setiap 07:00",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [-260, 0]
+    },
+    {
+      "parameters": {
+        "url": "http://host.docker.internal:3015/api/internal/daily-report",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            { "name": "x-internal-secret", "value": "internal-secret-demo" }
+          ]
+        },
+        "options": {
+          "timeout": 5000
+        }
+      },
+      "id": "b1b2c3d4-0002-4000-8000-000000000002",
+      "name": "Ambil Laporan",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [-40, 0]
+    },
+    {
+      "parameters": {
+        "jsCode": "const data = $json;\nconst rupiah = new Intl.NumberFormat('id-ID', {\n  style: 'currency',\n  currency: 'IDR',\n  maximumFractionDigits: 0,\n}).format(Number(data.totalRevenue ?? 0));\n\nreturn [{\n  json: {\n    type: 'daily-report',\n    title: `📊 Rekap ${data.date}`,\n    body: `Lunas hari ini: ${data.paidToday} · Menunggu bayar: ${data.pending} · Total pendapatan: ${rupiah} · Kelas terlaris: ${data.topCourse ?? '-'}`,\n  },\n}];"
+      },
+      "id": "b1b2c3d4-0003-4000-8000-000000000003",
+      "name": "Susun Ringkasan",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [200, 0]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://host.docker.internal:3015/api/internal/notifications",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            { "name": "x-internal-secret", "value": "internal-secret-demo" }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ type: $json.type, title: $json.title, body: $json.body }) }}",
+        "options": {
+          "timeout": 5000
+        }
+      },
+      "id": "b1b2c3d4-0004-4000-8000-000000000004",
+      "name": "Kirim ke CMS",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [440, 0]
+    }
+  ],
+  "connections": {
+    "Setiap 07:00": {
+      "main": [[{ "node": "Ambil Laporan", "type": "main", "index": 0 }]]
+    },
+    "Ambil Laporan": {
+      "main": [[{ "node": "Susun Ringkasan", "type": "main", "index": 0 }]]
+    },
+    "Susun Ringkasan": {
+      "main": [[{ "node": "Kirim ke CMS", "type": "main", "index": 0 }]]
+    }
+  },
+  "settings": { "executionOrder": "v1" },
+  "active": false,
+  "pinData": {}
+}

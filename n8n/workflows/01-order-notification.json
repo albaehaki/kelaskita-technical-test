@@ -1,0 +1,78 @@
+{
+  "name": "KelasKita — Order Notification",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "kelaskita-order",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "a1b2c3d4-0001-4000-8000-000000000001",
+      "name": "Webhook Order",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [-260, 0],
+      "webhookId": "kelaskita-order"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Payload dari aplikasi: { event, invoiceNo, studentName, courseTitle, amount, ... }\nconst body = $json.body ?? $json;\n\nconst rupiah = new Intl.NumberFormat('id-ID', {\n  style: 'currency',\n  currency: 'IDR',\n  maximumFractionDigits: 0,\n}).format(Number(body.amount ?? 0));\n\nconst isPaid = body.event === 'order.paid';\n\nreturn [{\n  json: {\n    event: body.event ?? 'order.created',\n    invoiceNo: body.invoiceNo,\n    title: isPaid ? `✅ Pembayaran lunas — ${body.invoiceNo}` : `🔔 Pendaftaran baru — ${body.invoiceNo}`,\n    message: `${body.studentName} · ${body.courseTitle} · ${rupiah} · ${body.city}, ${body.province}`,\n    payload: body,\n  },\n}];"
+      },
+      "id": "a1b2c3d4-0002-4000-8000-000000000002",
+      "name": "Format Pesan",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [-40, 0]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://host.docker.internal:3015/api/internal/notifications",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            { "name": "x-internal-secret", "value": "internal-secret-demo" }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ type: $json.event, title: $json.title, body: $json.message }) }}",
+        "options": {
+          "timeout": 5000
+        }
+      },
+      "id": "a1b2c3d4-0003-4000-8000-000000000003",
+      "name": "Callback ke CMS",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [200, 0]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ JSON.stringify({ ok: true, processed: $json.event ?? 'unknown' }) }}",
+        "options": {}
+      },
+      "id": "a1b2c3d4-0004-4000-8000-000000000004",
+      "name": "Respond",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [440, 0]
+    }
+  ],
+  "connections": {
+    "Webhook Order": {
+      "main": [[{ "node": "Format Pesan", "type": "main", "index": 0 }]]
+    },
+    "Format Pesan": {
+      "main": [[{ "node": "Callback ke CMS", "type": "main", "index": 0 }]]
+    },
+    "Callback ke CMS": {
+      "main": [[{ "node": "Respond", "type": "main", "index": 0 }]]
+    }
+  },
+  "settings": { "executionOrder": "v1" },
+  "active": false,
+  "pinData": {}
+}
