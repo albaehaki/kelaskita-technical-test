@@ -1,4 +1,4 @@
-import { cookies } from "next/headers";
+import { cookies, headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { SignJWT, jwtVerify } from "jose";
 import { prisma } from "./db";
@@ -18,6 +18,16 @@ function secretKey() {
   );
 }
 
+async function cookieSecure() {
+  const override = process.env.COOKIE_SECURE;
+  if (override === "true") return true;
+  if (override === "false") return false;
+
+  const header = await headers();
+  const proto = (header.get("x-forwarded-proto") ?? "").split(",")[0].trim();
+  return proto === "https";
+}
+
 export async function createStudentSession(email: string) {
   const token = await new SignJWT({ email: email.toLowerCase() })
     .setProtectedHeader({ alg: "HS256" })
@@ -29,7 +39,7 @@ export async function createStudentSession(email: string) {
     httpOnly: true,
     sameSite: "lax",
     path: "/",
-    secure: process.env.NODE_ENV === "production",
+    secure: await cookieSecure(),
     maxAge: MAX_AGE,
   });
 }
