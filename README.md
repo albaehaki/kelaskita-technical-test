@@ -147,6 +147,7 @@ docker compose --profile automation up -d
 |---|---|---|---|
 | `DATABASE_URL` | ✅ | — | Koneksi PostgreSQL |
 | `SESSION_SECRET` | ✅ | — | Kunci tanda tangan JWT session admin |
+| `COOKIE_SECURE` | — | otomatis | `true`/`false` untuk memaksa flag Secure; kosong = deteksi dari `x-forwarded-proto` |
 | `APP_URL` | — | `http://localhost:3015` | Base URL aplikasi |
 | `PAYMENT_PROVIDER` | — | `mock` | `mock`, `midtrans`, atau `xendit` |
 | `PAYMENT_CALLBACK_TOKEN` | ✅ | — | Shared token untuk `POST /api/payments/webhook` |
@@ -362,6 +363,7 @@ Dijalankan pada mesin pengembangan (Windows 11, Node 22.23, Docker Desktop, Post
 | LMS: login email + invoice lunas | ✅ `{"ok":true}` → `/kelas-saya` 200, 6 modul terbaca |
 | LMS: invoice palsu | ✅ `401` |
 | LMS: buka materi tanpa login | ✅ `307` ke `/kelas-saya` |
+| Login CMS via IP LAN (`http://192.168.x.x:3015`) | ✅ redirect ke `/admin`, cookie `Secure=false` |
 
 > n8n diuji pada instance terpisah (port 5679, profil `automation`) supaya tidak
 > mengganggu instance n8n lain di mesin pengembangan.
