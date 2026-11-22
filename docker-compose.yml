@@ -1,0 +1,58 @@
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: kelaskita-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: tt
+      POSTGRES_PASSWORD: ttpass
+      POSTGRES_DB: ttdb
+    ports:
+      - "5435:5432"
+    volumes:
+      - kelaskita_pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U tt -d ttdb"]
+      interval: 5s
+      timeout: 3s
+      retries: 12
+
+  app:
+    build: .
+    container_name: kelaskita-app
+    restart: unless-stopped
+    environment:
+      DATABASE_URL: postgresql://tt:ttpass@db:5432/ttdb?schema=public
+      APP_URL: http://localhost:3015
+      SESSION_SECRET: ${SESSION_SECRET:-ganti-secret-ini-di-produksi-32-karakter}
+      PAYMENT_PROVIDER: ${PAYMENT_PROVIDER:-mock}
+      PAYMENT_CALLBACK_TOKEN: ${PAYMENT_CALLBACK_TOKEN:-callback-token-demo}
+      MIDTRANS_SERVER_KEY: ${MIDTRANS_SERVER_KEY:-}
+      MIDTRANS_IS_PRODUCTION: ${MIDTRANS_IS_PRODUCTION:-false}
+      N8N_WEBHOOK_URL: ${N8N_WEBHOOK_URL:-http://n8n:5678/webhook/kelaskita-order}
+      INTERNAL_SECRET: ${INTERNAL_SECRET:-internal-secret-demo}
+    ports:
+      - "3015:3015"
+    depends_on:
+      db:
+        condition: service_healthy
+
+  # Opsional: `docker compose --profile automation up -d`
+  # Port host 5679 supaya tidak bentrok dengan instance n8n lain di mesin ini.
+  n8n:
+    image: docker.n8n.io/n8nio/n8n
+    container_name: kelaskita-n8n
+    restart: unless-stopped
+    profiles: ["automation"]
+    ports:
+      - "5679:5678"
+    environment:
+      N8N_SECURE_COOKIE: "false"
+      GENERIC_TIMEZONE: Asia/Jakarta
+      TZ: Asia/Jakarta
+    volumes:
+      - kelaskita_n8n:/home/node/.n8n
+
+volumes:
+  kelaskita_pgdata:
+  kelaskita_n8n:
