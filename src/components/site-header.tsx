@@ -4,7 +4,7 @@ export function SiteHeader() {
   return (
     <header className="sticky top-0 z-40 border-b border-[var(--color-line)] bg-white/90 backdrop-blur">
       <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-5">
-        <Link href="/" className="flex items-center gap-2 font-semibold tracking-tight">
+        <Link href="/" className="flex min-h-11 items-center gap-2 font-semibold tracking-tight">
           <span className="grid h-9 w-9 place-items-center rounded-xl bg-[var(--color-brand)] text-white">
             K
           </span>
@@ -26,18 +26,19 @@ export function SiteHeader() {
           </Link>
         </nav>
 
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-1.5 sm:gap-2">
           <Link
             href="/admin"
-            className="rounded-lg px-3 py-2 text-sm text-[var(--color-ink-soft)] hover:bg-[var(--color-brand-soft)] hover:text-[var(--color-brand-dark)]"
+            className="hidden rounded-lg px-3 py-2 text-sm text-[var(--color-ink-soft)] hover:bg-[var(--color-brand-soft)] hover:text-[var(--color-brand-dark)] sm:block"
           >
             CMS
           </Link>
           <Link
             href="/#kelas"
-            className="rounded-lg bg-[var(--color-brand)] px-4 py-2 text-sm font-medium text-white hover:bg-[var(--color-brand-dark)]"
+            className="rounded-lg bg-[var(--color-brand)] px-3 py-2 text-sm font-medium text-white hover:bg-[var(--color-brand-dark)] sm:px-4"
           >
-            Mulai belajar
+            <span className="sm:hidden">Katalog</span>
+            <span className="hidden sm:inline">Mulai belajar</span>
           </Link>
         </div>
       </div>

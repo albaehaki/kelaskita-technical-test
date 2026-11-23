@@ -29,12 +29,12 @@ export default async function AdminLayout({ children }: { children: React.ReactN
             </Link>
             <p className="mt-1 pl-10 text-xs text-[var(--color-ink-soft)]">CMS Admin</p>
 
-            <nav className="mt-5 space-y-1">
+            <nav className="mt-4 grid grid-cols-2 gap-1 lg:mt-5 lg:block lg:space-y-1">
               {menu.map((item) => (
                 <Link
                   key={item.href}
                   href={item.href}
-                  className="flex items-center gap-2 rounded-lg px-3 py-2 text-sm text-[var(--color-ink-soft)] hover:bg-[var(--color-brand-soft)] hover:text-[var(--color-brand-dark)]"
+                  className="flex min-h-11 shrink-0 items-center gap-2 rounded-lg px-3 py-2 text-sm text-[var(--color-ink-soft)] hover:bg-[var(--color-brand-soft)] hover:text-[var(--color-brand-dark)]"
                 >
                   <item.icon className="h-4 w-4" />
                   {item.label}
@@ -42,10 +42,12 @@ export default async function AdminLayout({ children }: { children: React.ReactN
               ))}
             </nav>
 
-            <div className="mt-5 border-t border-[var(--color-line)] pt-4">
-              <p className="text-xs text-[var(--color-ink-soft)]">Masuk sebagai</p>
-              <p className="truncate text-sm font-medium">{user.name}</p>
-              <form action={logoutAction} className="mt-2">
+            <div className="mt-4 flex items-center justify-between gap-3 border-t border-[var(--color-line)] pt-3 lg:block lg:pt-4">
+              <div className="min-w-0">
+                <p className="text-xs text-[var(--color-ink-soft)]">Masuk sebagai</p>
+                <p className="truncate text-sm font-medium">{user.name}</p>
+              </div>
+              <form action={logoutAction} className="shrink-0 lg:mt-2">
                 <button className="text-xs text-red-600 hover:underline">Keluar</button>
               </form>
             </div>

@@ -47,11 +47,11 @@ export default async function AdminDashboardPage() {
         </Link>
       </header>
 
-      <section className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+      <section className="grid grid-cols-2 gap-3 xl:grid-cols-4">
         {cards.map((card) => (
-          <div key={card.label} className="rounded-2xl border border-[var(--color-line)] bg-white p-5">
+          <div key={card.label} className="rounded-2xl border border-[var(--color-line)] bg-white p-4 sm:p-5">
             <p className="text-xs text-[var(--color-ink-soft)]">{card.label}</p>
-            <p className="mt-2 text-2xl font-semibold tracking-tight">{card.value}</p>
+            <p className="mt-2 text-xl font-semibold tracking-tight sm:text-2xl">{card.value}</p>
             <p className="mt-1 text-xs text-[var(--color-ink-soft)]">{card.hint}</p>
           </div>
         ))}
@@ -78,7 +78,7 @@ export default async function AdminDashboardPage() {
                     {item.course.title} · {item.invoiceNo}
                   </p>
                 </div>
-                <span className="text-xs text-[var(--color-ink-soft)]">{tanggal(item.createdAt)}</span>
+                <span className="hidden text-xs text-[var(--color-ink-soft)] sm:block">{tanggal(item.createdAt)}</span>
                 <span
                   className={`rounded-full px-2.5 py-1 text-xs ${
                     item.status === "PAID"

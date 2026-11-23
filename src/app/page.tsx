@@ -63,7 +63,7 @@ export default async function HomePage() {
                 </Link>
               </div>
 
-              <dl className="mt-10 grid max-w-md grid-cols-3 gap-4 border-t border-[var(--color-line)] pt-6">
+              <dl className="mt-8 grid max-w-md grid-cols-2 gap-4 border-t border-[var(--color-line)] pt-6 sm:mt-10 sm:grid-cols-3">
                 <div>
                   <dt className="text-xs text-[var(--color-ink-soft)]">Kelas aktif</dt>
                   <dd className="mt-1 text-xl font-semibold">{courses.length}</dd>
@@ -72,7 +72,7 @@ export default async function HomePage() {
                   <dt className="text-xs text-[var(--color-ink-soft)]">Peserta lunas</dt>
                   <dd className="mt-1 text-xl font-semibold">{enrollmentCount}</dd>
                 </div>
-                <div>
+                <div className="col-span-2 sm:col-span-1">
                   <dt className="text-xs text-[var(--color-ink-soft)]">Mulai dari</dt>
                   <dd className="mt-1 text-xl font-semibold">
                     {courses.length ? rupiah(cheapest) : "Belum tersedia"}
@@ -109,7 +109,7 @@ export default async function HomePage() {
                           {course.level} · {course.durationHours} jam
                         </span>
                       </span>
-                      <span className="text-sm font-semibold">{rupiah(course.price)}</span>
+                      <span className="hidden shrink-0 text-sm font-semibold sm:block">{rupiah(course.price)}</span>
                     </Link>
                   </li>
                 ))}
@@ -190,7 +190,7 @@ export default async function HomePage() {
         <section className="mx-auto max-w-6xl px-5 py-16">
           <div className="flex flex-wrap items-end justify-between gap-3">
             <h2 className="text-2xl font-semibold tracking-tight md:text-3xl">Catatan belajar</h2>
-            <Link href="/artikel" className="text-sm font-medium text-[var(--color-brand-dark)]">
+            <Link href="/artikel" className="inline-flex min-h-7 items-center text-sm font-medium text-[var(--color-brand-dark)]">
               Semua artikel
             </Link>
           </div>

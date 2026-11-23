@@ -40,7 +40,7 @@ export default async function StudentCoursePage({
     <>
       <SiteHeader />
       <main className="mx-auto max-w-3xl px-5 py-12">
-        <Link href="/kelas-saya" className="text-sm text-[var(--color-ink-soft)]">
+        <Link href="/kelas-saya" className="inline-flex min-h-7 items-center text-sm text-[var(--color-ink-soft)]">
           ← Dashboard peserta
         </Link>
 

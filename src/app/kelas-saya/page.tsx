@@ -64,16 +64,16 @@ export default async function KelasSayaPage() {
         </div>
 
         {/* Statistik */}
-        <section className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+        <section className="mt-6 grid grid-cols-2 gap-3 lg:grid-cols-4">
           {[
             { label: "Kelas aktif", value: String(enrollments.length) },
             { label: "Modul selesai", value: `${doneLessons}/${totalLessons}` },
             { label: "Progress total", value: `${overall}%` },
             { label: "Kelas tuntas", value: String(completedCourses) },
           ].map((stat) => (
-            <div key={stat.label} className="rounded-2xl border border-[var(--color-line)] bg-white p-5">
+            <div key={stat.label} className="rounded-2xl border border-[var(--color-line)] bg-white p-4 sm:p-5">
               <p className="text-xs text-[var(--color-ink-soft)]">{stat.label}</p>
-              <p className="mt-1 text-2xl font-semibold tracking-tight">{stat.value}</p>
+              <p className="mt-1 text-xl font-semibold tracking-tight sm:text-2xl">{stat.value}</p>
             </div>
           ))}
         </section>
@@ -144,17 +144,17 @@ export default async function KelasSayaPage() {
                       </div>
                     </div>
 
-                    <div className="flex flex-col gap-2">
+                    <div className="flex w-full flex-col gap-2 sm:w-auto">
                       <Link
                         href={`/kelas-saya/${enrollment.course.slug}`}
-                        className="rounded-xl bg-[var(--color-brand)] px-4 py-2 text-center text-sm font-medium text-white hover:bg-[var(--color-brand-dark)]"
+                        className="w-full rounded-xl bg-[var(--color-brand)] px-4 py-2 text-center text-sm font-medium text-white hover:bg-[var(--color-brand-dark)] sm:w-auto"
                       >
                         {done === 0 ? "Mulai belajar" : finished ? "Ulangi materi" : "Lanjut belajar"}
                       </Link>
                       {finished && (
                         <Link
                           href={`/kelas-saya/${enrollment.course.slug}/sertifikat`}
-                          className="rounded-xl border border-[var(--color-brand)] px-4 py-2 text-center text-sm font-medium text-[var(--color-brand-dark)] hover:bg-[var(--color-brand-soft)]"
+                          className="w-full rounded-xl border border-[var(--color-brand)] px-4 py-2 text-center text-sm font-medium text-[var(--color-brand-dark)] hover:bg-[var(--color-brand-soft)] sm:w-auto"
                         >
                           Lihat sertifikat
                         </Link>

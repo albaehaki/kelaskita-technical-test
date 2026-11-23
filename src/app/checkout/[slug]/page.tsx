@@ -25,7 +25,7 @@ export default async function CheckoutPage({
     <>
       <SiteHeader />
       <main className="mx-auto max-w-5xl px-5 py-12">
-        <Link href={`/kelas/${course.slug}`} className="text-sm text-[var(--color-ink-soft)]">
+        <Link href={`/kelas/${course.slug}`} className="inline-flex min-h-7 items-center text-sm text-[var(--color-ink-soft)]">
           ← Kembali ke detail kelas
         </Link>
 

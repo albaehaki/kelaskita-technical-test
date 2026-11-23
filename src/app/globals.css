@@ -28,6 +28,26 @@ body {
   color: #fff;
 }
 
+/* Tap target minimum di layar kecil (R-03). Berlaku untuk kontrol, bukan tautan inline. */
+@media (max-width: 640px) {
+  button {
+    min-height: 44px;
+  }
+  a[class*="rounded-xl"],
+  a[class*="rounded-lg"] {
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+  nav a,
+  footer a {
+    min-height: 26px;
+    display: inline-flex;
+    align-items: center;
+  }
+}
+
 .prose-basic p {
   margin-bottom: 1rem;
   line-height: 1.75;

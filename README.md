@@ -389,6 +389,8 @@ Dijalankan pada mesin pengembangan (Windows 11, Node 22.23, Docker Desktop, Post
 | LMS: tandai 2 modul selesai | ✅ progress dashboard 0% → **33%** (2/6), tombol jadi “Lanjut belajar” |
 | LMS: selesaikan 6/6 modul | ✅ sertifikat terbit otomatis (`KK-CERT-…`), halaman cetak & verifikasi publik 200 |
 | Login CMS via IP LAN (`http://192.168.x.x:3015`) | ✅ redirect ke `/admin`, cookie `Secure=false` |
+| Mobile 390px: beranda, detail, checkout, LMS, materi, sertifikat, admin | ✅ **overflow horizontal 0px** di semua halaman; kontrol utama ≥44px |
+| Admin pendaftaran di mobile | ✅ tampil sebagai kartu (tabel penuh hanya di desktop) |
 
 > n8n diuji pada instance terpisah (port 5679, profil `automation`) supaya tidak
 > mengganggu instance n8n lain di mesin pengembangan.

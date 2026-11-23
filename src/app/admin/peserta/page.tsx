@@ -23,7 +23,58 @@ export default async function AdminEnrollmentsPage() {
         </p>
       </header>
 
-      <section className="overflow-x-auto rounded-2xl border border-[var(--color-line)] bg-white">
+      {/* Mobile: kartu ringkas, tabel penuh disembunyikan */}
+      <section className="space-y-3 md:hidden">
+        {enrollments.map((item) => (
+          <article
+            key={item.id}
+            className="rounded-2xl border border-[var(--color-line)] bg-white p-4"
+          >
+            <div className="flex items-start justify-between gap-2">
+              <p className="font-mono text-xs">{item.invoiceNo}</p>
+              <span
+                className={`rounded-full px-2 py-0.5 text-[11px] ${
+                  item.status === "PAID"
+                    ? "bg-[var(--color-brand-soft)] text-[var(--color-brand-dark)]"
+                    : "bg-amber-50 text-amber-700"
+                }`}
+              >
+                {statusLabel[item.status]}
+              </span>
+            </div>
+
+            <p className="mt-2 text-sm font-medium">{item.studentName}</p>
+            <p className="text-xs text-[var(--color-ink-soft)]">
+              {item.email} · {item.city}
+            </p>
+            <p className="mt-1 text-xs">{item.course.title}</p>
+
+            <div className="mt-3 flex items-center justify-between gap-2 border-t border-[var(--color-line)] pt-3">
+              <p className="text-sm font-medium">{rupiah(item.amount)}</p>
+              <form
+                action={updateEnrollmentStatusAction.bind(null, item.id)}
+                className="flex items-center gap-1.5"
+              >
+                <select
+                  name="status"
+                  defaultValue={item.status}
+                  className="rounded-lg border border-[var(--color-line)] bg-white px-2 py-1.5 text-xs"
+                >
+                  <option value="PENDING">{statusLabel.PENDING}</option>
+                  <option value="PAID">{statusLabel.PAID}</option>
+                  <option value="EXPIRED">{statusLabel.EXPIRED}</option>
+                  <option value="CANCELLED">{statusLabel.CANCELLED}</option>
+                </select>
+                <button className="rounded-lg bg-[var(--color-brand)] px-2.5 py-1.5 text-xs text-white hover:bg-[var(--color-brand-dark)]">
+                  Simpan
+                </button>
+              </form>
+            </div>
+          </article>
+        ))}
+      </section>
+
+      <section className="hidden overflow-x-auto rounded-2xl border border-[var(--color-line)] bg-white md:block">
         <table className="w-full min-w-[860px] text-sm">
           <thead className="bg-[var(--color-paper)] text-left text-xs uppercase tracking-wide text-[var(--color-ink-soft)]">
             <tr>

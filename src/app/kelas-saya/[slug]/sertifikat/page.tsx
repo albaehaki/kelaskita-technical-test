@@ -63,15 +63,15 @@ export default async function CertificatePage({
       <main className="min-h-screen bg-[var(--color-paper)] px-5 py-10">
         <div className="mx-auto max-w-4xl">
           <div className="no-print mb-4 flex flex-wrap items-center justify-between gap-3">
-            <Link href={`/kelas-saya/${course.slug}`} className="text-sm text-[var(--color-ink-soft)]">
+            <Link href={`/kelas-saya/${course.slug}`} className="inline-flex min-h-7 items-center text-sm text-[var(--color-ink-soft)]">
               ← Kembali ke materi
             </Link>
             <PrintButton />
           </div>
 
-          <article className="cert relative overflow-hidden rounded-3xl border-[6px] border-[#0f7a52] bg-white p-10 shadow-[0_30px_80px_-50px_rgba(15,28,23,0.5)] md:p-14">
-            <div className="pointer-events-none absolute -right-16 -top-16 h-56 w-56 rounded-full bg-[#e6f4ec]" />
-            <div className="pointer-events-none absolute -bottom-20 -left-16 h-56 w-56 rounded-full bg-[#f7f9f6]" />
+          <article className="cert relative overflow-hidden rounded-3xl border-4 border-[#0f7a52] bg-white p-6 shadow-[0_30px_80px_-50px_rgba(15,28,23,0.5)] sm:border-[6px] sm:p-10 md:p-14">
+            <div className="pointer-events-none absolute -right-16 -top-16 h-40 w-40 rounded-full bg-[#e6f4ec] sm:h-56 sm:w-56" />
+            <div className="pointer-events-none absolute -bottom-20 -left-16 h-40 w-40 rounded-full bg-[#f7f9f6] sm:h-56 sm:w-56" />
 
             <div className="relative">
               <div className="flex items-start justify-between gap-4">
@@ -89,10 +89,10 @@ export default async function CertificatePage({
                 </div>
               </div>
 
-              <p className="mt-10 text-[11px] uppercase tracking-[0.2em] text-[#0a5c3d]">
+              <p className="mt-6 text-[11px] uppercase tracking-[0.2em] text-[#0a5c3d] sm:mt-10">
                 Diberikan kepada
               </p>
-              <h1 className="mt-2 text-4xl font-semibold tracking-tight md:text-5xl">
+              <h1 className="mt-2 text-2xl font-semibold tracking-tight sm:text-4xl md:text-5xl">
                 {enrollment.studentName}
               </h1>
 
