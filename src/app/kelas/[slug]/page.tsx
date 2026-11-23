@@ -4,6 +4,7 @@ import { prisma } from "@/lib/db";
 import { rupiah } from "@/lib/format";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
+import { CourseIcon, IconCheck } from "@/components/icons";
 
 export const dynamic = "force-dynamic";
 
@@ -41,8 +42,8 @@ export default async function CourseDetailPage({
         <div className="mt-8 grid gap-10 lg:grid-cols-[1.6fr_1fr]">
           <article>
             <div className="flex items-center gap-3">
-              <span className="grid h-14 w-14 place-items-center rounded-2xl bg-[var(--color-brand-soft)] text-3xl">
-                {course.coverEmoji}
+              <span className="grid h-14 w-14 place-items-center rounded-2xl bg-[var(--color-brand-soft)] text-[var(--color-brand-dark)]">
+                <CourseIcon slug={course.slug} className="h-7 w-7" />
               </span>
               <div>
                 <p className="text-xs font-semibold uppercase tracking-wider text-[var(--color-brand)]">
@@ -85,8 +86,8 @@ export default async function CourseDetailPage({
                   "Grup diskusi peserta",
                 ].map((item) => (
                   <li key={item} className="flex items-center gap-3 text-sm">
-                    <span className="grid h-6 w-6 place-items-center rounded-full bg-[var(--color-brand-soft)] text-xs text-[var(--color-brand-dark)]">
-                      ✓
+                    <span className="grid h-6 w-6 place-items-center rounded-full bg-[var(--color-brand-soft)] text-[var(--color-brand-dark)]">
+                      <IconCheck className="h-3.5 w-3.5" />
                     </span>
                     {item}
                   </li>

@@ -42,7 +42,7 @@ export function PayButton({ invoiceNo }: { invoiceNo: string }) {
       )}
 
       <p className="text-center text-xs text-[var(--color-ink-soft)]">
-        Ini mock gateway — tidak ada uang yang benar-benar dipindahkan.
+        Ini mock gateway, tidak ada uang yang benar-benar dipindahkan.
       </p>
     </div>
   );

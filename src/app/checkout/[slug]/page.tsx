@@ -5,6 +5,7 @@ import { rupiah } from "@/lib/format";
 import { getProvinces } from "@/lib/wilayah";
 import { SiteHeader } from "@/components/site-header";
 import { CheckoutForm } from "@/components/checkout-form";
+import { CourseIcon } from "@/components/icons";
 
 export const dynamic = "force-dynamic";
 
@@ -56,8 +57,8 @@ export default async function CheckoutPage({
           <aside className="lg:sticky lg:top-24 lg:self-start">
             <div className="rounded-2xl border border-[var(--color-line)] bg-white p-6">
               <div className="flex items-center gap-3">
-                <span className="grid h-12 w-12 place-items-center rounded-xl bg-[var(--color-brand-soft)] text-2xl">
-                  {course.coverEmoji}
+                <span className="grid h-12 w-12 place-items-center rounded-xl bg-[var(--color-brand-soft)] text-[var(--color-brand-dark)]">
+                  <CourseIcon slug={course.slug} className="h-6 w-6" />
                 </span>
                 <div>
                   <p className="text-sm font-medium">{course.title}</p>

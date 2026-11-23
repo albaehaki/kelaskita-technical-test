@@ -4,6 +4,7 @@ import { StudentLoginForm } from "@/components/student-login-form";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { rupiah, tanggal } from "@/lib/format";
+import { CourseIcon } from "@/components/icons";
 
 export const dynamic = "force-dynamic";
 export const metadata = { title: "Kelas Saya" };
@@ -114,8 +115,8 @@ export default async function KelasSayaPage() {
                   className="rounded-2xl border border-[var(--color-line)] bg-white p-5"
                 >
                   <div className="flex flex-wrap items-start gap-4">
-                    <span className="grid h-12 w-12 place-items-center rounded-xl bg-[var(--color-brand-soft)] text-2xl">
-                      {enrollment.course.coverEmoji}
+                    <span className="grid h-12 w-12 place-items-center rounded-xl bg-[var(--color-brand-soft)] text-[var(--color-brand-dark)]">
+                      <CourseIcon slug={enrollment.course.slug} className="h-6 w-6" />
                     </span>
 
                     <div className="min-w-0 flex-1">

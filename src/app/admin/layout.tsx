@@ -1,12 +1,13 @@
 import Link from "next/link";
 import { getSessionUser } from "@/lib/auth";
 import { logoutAction } from "./actions";
+import { IconDashboard, IconBook, IconReceipt, IconPencil } from "@/components/icons";
 
 const menu = [
-  { href: "/admin", label: "Dashboard", icon: "▦" },
-  { href: "/admin/kelas", label: "Kelas", icon: "🎓" },
-  { href: "/admin/peserta", label: "Pendaftaran", icon: "🧾" },
-  { href: "/admin/artikel", label: "Artikel", icon: "📝" },
+  { href: "/admin", label: "Dashboard", icon: IconDashboard },
+  { href: "/admin/kelas", label: "Kelas", icon: IconBook },
+  { href: "/admin/peserta", label: "Pendaftaran", icon: IconReceipt },
+  { href: "/admin/artikel", label: "Artikel", icon: IconPencil },
 ];
 
 export default async function AdminLayout({ children }: { children: React.ReactNode }) {
@@ -35,7 +36,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
                   href={item.href}
                   className="flex items-center gap-2 rounded-lg px-3 py-2 text-sm text-[var(--color-ink-soft)] hover:bg-[var(--color-brand-soft)] hover:text-[var(--color-brand-dark)]"
                 >
-                  <span>{item.icon}</span>
+                  <item.icon className="h-4 w-4" />
                   {item.label}
                 </Link>
               ))}

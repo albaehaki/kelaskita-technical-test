@@ -90,16 +90,6 @@ export async function CourseForm({ course }: { course?: CourseDefaults }) {
             className={inputClass}
           />
         </label>
-
-        <label className="block text-sm">
-          <span className="mb-1.5 block font-medium">Emoji cover</span>
-          <input
-            name="coverEmoji"
-            maxLength={4}
-            defaultValue={course?.coverEmoji ?? "🎓"}
-            className={inputClass}
-          />
-        </label>
       </div>
 
       <label className="block text-sm">

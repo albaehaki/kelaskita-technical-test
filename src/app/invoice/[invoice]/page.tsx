@@ -45,9 +45,9 @@ export default async function InvoicePage({
             </span>
           </div>
 
-          <h1 className="mt-6 text-2xl font-semibold tracking-tight">
-            {isPaid ? "Pendaftaran berhasil! 🎉" : "Menunggu pembayaran"}
-          </h1>
+              <h1 className="mt-6 text-2xl font-semibold tracking-tight">
+                {isPaid ? "Pendaftaran berhasil" : "Menunggu pembayaran"}
+              </h1>
           <p className="mt-2 text-sm leading-relaxed text-[var(--color-ink-soft)]">
             {isPaid
               ? "Pembayaran sudah kami terima. Detail akses kelas dikirim ke email peserta."

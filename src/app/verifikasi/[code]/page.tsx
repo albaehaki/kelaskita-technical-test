@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { prisma } from "@/lib/db";
+import { IconCheck } from "@/components/icons";
 
 export const dynamic = "force-dynamic";
 export const metadata = { title: "Verifikasi Sertifikat" };
@@ -35,11 +36,12 @@ export default async function VerifyCertificatePage({
           </div>
 
           <div
-            className={`mt-6 rounded-xl px-4 py-3 text-sm ${
+            className={`mt-6 flex items-center gap-2 rounded-xl px-4 py-3 text-sm ${
               valid ? "bg-[var(--color-brand-soft)] text-[var(--color-brand-dark)]" : "bg-red-50 text-red-700"
             }`}
           >
-            {valid ? "✅ Sertifikat sah dan terdaftar." : "❌ Kode sertifikat tidak ditemukan."}
+            {valid && <IconCheck className="h-4 w-4 shrink-0" />}
+            {valid ? "Sertifikat sah dan terdaftar." : "Kode sertifikat tidak ditemukan."}
           </div>
 
           {certificate && (

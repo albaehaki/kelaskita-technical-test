@@ -32,7 +32,7 @@ export async function emitEventToN8n(payload: AutomationEvent) {
       data: {
         type: payload.event,
         title: `[lokal] ${payload.event}`,
-        body: `${payload.studentName} — ${payload.courseTitle} (${payload.invoiceNo})`,
+        body: `${payload.studentName} · ${payload.courseTitle} (${payload.invoiceNo})`,
         source: "app-fallback",
       },
     });

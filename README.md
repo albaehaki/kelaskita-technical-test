@@ -340,7 +340,20 @@ Dockerfile · docker-compose.yml · docker-entrypoint.sh
 
 ---
 
-## 12. AI disclosure
+## 12. Keputusan visual
+
+- **Ikon SVG, bukan emoji.** Ikon kelas dipilih sesuai isi (kode untuk React, silinder untuk
+  PostgreSQL, kontainer untuk Docker, plug untuk API), alasan yang bisa dijelaskan. Tidak ada
+  emoji sebagai ikon di navigasi, kartu, atau notifikasi.
+- **Satu accent hijau** di atas netral kertas, dipakai untuk aksi utama dan status, bukan di
+  semua elemen.
+- **Tanpa badge dekoratif di atas headline**, tanpa glow, tanpa gradient. Badge hanya dipakai
+  untuk status nyata (mis. "selesai").
+- **Angka di dashboard berasal dari database**, bukan angka contoh.
+
+---
+
+## 13. AI disclosure
 Sesuai praktik yang jujur: sebagian kode dibantu AI (Hermes Agent), dengan keputusan
 arsitektur, skema data, dan verifikasi dilakukan manual.
 
@@ -355,7 +368,7 @@ arsitektur, skema data, dan verifikasi dilakukan manual.
 
 ---
 
-## 13. Hasil verifikasi
+## 14. Hasil verifikasi
 
 Dijalankan pada mesin pengembangan (Windows 11, Node 22.23, Docker Desktop, PostgreSQL 16):
 
@@ -381,6 +394,6 @@ Dijalankan pada mesin pengembangan (Windows 11, Node 22.23, Docker Desktop, Post
 > mengganggu instance n8n lain di mesin pengembangan.
 
 
-## 14. Dokumen alur
+## 15. Dokumen alur
 
 Panduan bergambar (17 halaman): [`docs/ALUR-LENGKAP.pdf`](./docs/ALUR-LENGKAP.pdf) — alur peserta dari beranda sampai materi, dan alur admin dari login sampai kelola artikel.

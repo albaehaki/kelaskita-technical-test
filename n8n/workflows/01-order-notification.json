@@ -1,5 +1,5 @@
 {
-  "name": "KelasKita — Order Notification",
+  "name": "KelasKita: Order Notification",
   "nodes": [
     {
       "parameters": {
@@ -17,7 +17,7 @@
     },
     {
       "parameters": {
-        "jsCode": "// Payload dari aplikasi: { event, invoiceNo, studentName, courseTitle, amount, ... }\nconst body = $json.body ?? $json;\n\nconst rupiah = new Intl.NumberFormat('id-ID', {\n  style: 'currency',\n  currency: 'IDR',\n  maximumFractionDigits: 0,\n}).format(Number(body.amount ?? 0));\n\nconst isPaid = body.event === 'order.paid';\n\nreturn [{\n  json: {\n    event: body.event ?? 'order.created',\n    invoiceNo: body.invoiceNo,\n    title: isPaid ? `✅ Pembayaran lunas — ${body.invoiceNo}` : `🔔 Pendaftaran baru — ${body.invoiceNo}`,\n    message: `${body.studentName} · ${body.courseTitle} · ${rupiah} · ${body.city}, ${body.province}`,\n    payload: body,\n  },\n}];"
+        "jsCode": "// Payload dari aplikasi: { event, invoiceNo, studentName, courseTitle, amount, ... }\nconst body = $json.body ?? $json;\n\nconst rupiah = new Intl.NumberFormat('id-ID', {\n  style: 'currency',\n  currency: 'IDR',\n  maximumFractionDigits: 0,\n}).format(Number(body.amount ?? 0));\n\nconst isPaid = body.event === 'order.paid';\n\nreturn [{\n  json: {\n    event: body.event ?? 'order.created',\n    invoiceNo: body.invoiceNo,\n    title: isPaid ? `Pembayaran lunas: ${body.invoiceNo}` : `Pendaftaran baru: ${body.invoiceNo}`,\n    message: `${body.studentName} · ${body.courseTitle} · ${rupiah} · ${body.city}, ${body.province}`,\n    payload: body,\n  },\n}];"
       },
       "id": "a1b2c3d4-0002-4000-8000-000000000002",
       "name": "Format Pesan",

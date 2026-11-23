@@ -3,7 +3,7 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   title: {
-    default: "KelasKita — Kelas IT praktis untuk karier nyata",
+    default: "KelasKita: Kelas IT praktis untuk karier nyata",
     template: "%s · KelasKita",
   },
   description:

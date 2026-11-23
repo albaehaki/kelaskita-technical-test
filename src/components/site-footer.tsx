@@ -48,7 +48,7 @@ export function SiteFooter() {
       </div>
 
       <div className="border-t border-[var(--color-line)] py-5 text-center text-xs text-[var(--color-ink-soft)]">
-        © {new Date().getFullYear()} KelasKita — dibuat sebagai technical test.
+        © {new Date().getFullYear()} KelasKita, dibuat sebagai technical test.
       </div>
     </footer>
   );

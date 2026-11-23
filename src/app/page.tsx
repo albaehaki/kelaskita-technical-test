@@ -4,6 +4,7 @@ import { rupiah } from "@/lib/format";
 import { CourseCard } from "@/components/course-card";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
+import { CourseIcon } from "@/components/icons";
 
 export const dynamic = "force-dynamic";
 
@@ -36,11 +37,6 @@ export default async function HomePage() {
         <section className="mx-auto max-w-6xl px-5 pb-14 pt-16 md:pt-24">
           <div className="grid items-center gap-12 md:grid-cols-[1.15fr_0.85fr]">
             <div>
-              <span className="inline-flex items-center gap-2 rounded-full border border-[var(--color-line)] bg-white px-3 py-1 text-xs text-[var(--color-ink-soft)]">
-                <span className="h-1.5 w-1.5 rounded-full bg-[var(--color-brand)]" />
-                Pendaftaran kelas dibuka
-              </span>
-
               <h1 className="mt-5 text-4xl font-semibold leading-[1.1] tracking-tight md:text-5xl">
                 Belajar IT dari praktisi,
                 <br />
@@ -79,7 +75,7 @@ export default async function HomePage() {
                 <div>
                   <dt className="text-xs text-[var(--color-ink-soft)]">Mulai dari</dt>
                   <dd className="mt-1 text-xl font-semibold">
-                    {courses.length ? rupiah(cheapest) : "—"}
+                    {courses.length ? rupiah(cheapest) : "Belum tersedia"}
                   </dd>
                 </div>
               </dl>
@@ -104,8 +100,8 @@ export default async function HomePage() {
                       <span className="w-5 text-sm font-semibold text-[var(--color-ink-soft)]">
                         {String(index + 1).padStart(2, "0")}
                       </span>
-                      <span className="grid h-10 w-10 place-items-center rounded-lg bg-[var(--color-brand-soft)] text-xl">
-                        {course.coverEmoji}
+                      <span className="grid h-10 w-10 place-items-center rounded-lg bg-[var(--color-brand-soft)] text-[var(--color-brand-dark)]">
+                        <CourseIcon slug={course.slug} className="h-5 w-5" />
                       </span>
                       <span className="min-w-0 flex-1">
                         <span className="block truncate text-sm font-medium">{course.title}</span>
@@ -195,7 +191,7 @@ export default async function HomePage() {
           <div className="flex flex-wrap items-end justify-between gap-3">
             <h2 className="text-2xl font-semibold tracking-tight md:text-3xl">Catatan belajar</h2>
             <Link href="/artikel" className="text-sm font-medium text-[var(--color-brand-dark)]">
-              Semua artikel →
+              Semua artikel
             </Link>
           </div>
 
@@ -216,7 +212,7 @@ export default async function HomePage() {
                   {article.excerpt}
                 </p>
                 <span className="mt-4 inline-block text-sm font-medium text-[var(--color-brand-dark)]">
-                  Baca →
+                  Baca
                 </span>
               </Link>
             ))}

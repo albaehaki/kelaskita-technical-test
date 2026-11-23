@@ -71,7 +71,7 @@ export async function markEnrollmentPaid(input: MarkPaidInput) {
       await tx.notification.create({
         data: {
           type: "order.paid",
-          title: `Pembayaran lunas — ${input.invoiceNo}`,
+          title: `Pembayaran lunas: ${input.invoiceNo}`,
           body: `${enrollment.studentName} membayar ${enrollment.course.title}.`,
           source: input.provider ?? "payment",
         },

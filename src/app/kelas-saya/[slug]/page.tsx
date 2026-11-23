@@ -4,6 +4,7 @@ import { prisma } from "@/lib/db";
 import { requireStudent } from "@/lib/student-auth";
 import { SiteHeader } from "@/components/site-header";
 import { toggleLessonAction } from "../actions";
+import { CourseIcon, IconCheck } from "@/components/icons";
 
 export const dynamic = "force-dynamic";
 
@@ -44,8 +45,8 @@ export default async function StudentCoursePage({
         </Link>
 
         <div className="mt-4 flex items-start gap-4">
-          <span className="grid h-14 w-14 place-items-center rounded-2xl bg-[var(--color-brand-soft)] text-3xl">
-            {course.coverEmoji}
+          <span className="grid h-14 w-14 place-items-center rounded-2xl bg-[var(--color-brand-soft)] text-[var(--color-brand-dark)]">
+            <CourseIcon slug={course.slug} className="h-7 w-7" />
           </span>
           <div className="min-w-0 flex-1">
             <p className="text-xs font-medium uppercase tracking-wide text-[var(--color-brand)]">
@@ -62,7 +63,7 @@ export default async function StudentCoursePage({
         <div className="mt-5 rounded-2xl border border-[var(--color-line)] bg-white p-5">
           <div className="flex items-center justify-between text-sm">
             <span className="font-medium">
-              {percent === 100 ? "Kelas selesai 🎉" : nextLesson ? `Berikutnya: ${nextLesson.title}` : "Progress"}
+              {percent === 100 ? "Kelas selesai" : nextLesson ? `Berikutnya: ${nextLesson.title}` : "Progress"}
             </span>
             <span className="text-[var(--color-ink-soft)]">{percent}%</span>
           </div>
@@ -76,7 +77,7 @@ export default async function StudentCoursePage({
             <div className="flex flex-wrap items-center justify-between gap-3 rounded-2xl bg-[var(--color-brand-soft)] px-5 py-4">
               <div>
                 <p className="text-sm font-semibold text-[var(--color-brand-dark)]">
-                  Selamat — semua modul selesai! 🎉
+                  Selamat, semua modul selesai.
                 </p>
                 <p className="mt-0.5 text-xs text-[var(--color-brand-dark)]/80">
                   Sertifikat penyelesaian sudah bisa dilihat dan dicetak.
@@ -109,7 +110,7 @@ export default async function StudentCoursePage({
                         : "bg-[var(--color-paper)] text-[var(--color-brand-dark)]"
                     }`}
                   >
-                    {isDone ? "✓" : String(lesson.order).padStart(2, "0")}
+                    {isDone ? <IconCheck className="h-4 w-4" /> : String(lesson.order).padStart(2, "0")}
                   </span>
 
                   <div className="min-w-0 flex-1">

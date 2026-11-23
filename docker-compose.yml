@@ -57,7 +57,9 @@ services:
       N8N_SECURE_COOKIE: "false"
       GENERIC_TIMEZONE: Asia/Jakarta
       TZ: Asia/Jakarta
-      # Dibaca workflow lewat {{ $env.INTERNAL_SECRET }} — jangan hardcode di JSON.
+      # Workflow membaca secret lewat {{ $env.INTERNAL_SECRET }}.
+      # n8n 2.x memblokir akses env di node secara default.
+      N8N_BLOCK_ENV_ACCESS_IN_NODE: "false"
       INTERNAL_SECRET: ${INTERNAL_SECRET:-internal-secret-demo}
     volumes:
       - kelaskita_n8n:/home/node/.n8n

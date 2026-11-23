@@ -77,7 +77,7 @@ export default async function AdminEnrollmentsPage() {
       </section>
 
       <p className="text-xs text-[var(--color-ink-soft)]">
-        Perubahan status lewat CMS tidak mengirim ulang notifikasi n8n — automation hanya terpicu
+        Perubahan status lewat CMS tidak mengirim ulang notifikasi n8n, automation hanya terpicu
         dari event pembayaran, supaya tidak ada notifikasi ganda.
       </p>
     </div>

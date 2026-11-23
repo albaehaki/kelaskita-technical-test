@@ -2,6 +2,7 @@ import Link from "next/link";
 import { prisma } from "@/lib/db";
 import { requireAdmin } from "@/lib/auth";
 import { rupiah } from "@/lib/format";
+import { CourseIcon } from "@/components/icons";
 import { CourseForm } from "./course-form";
 import { deleteCourseAction, toggleCourseAction } from "../actions";
 
@@ -38,8 +39,8 @@ export default async function AdminCoursesPage() {
         <div className="divide-y divide-[var(--color-line)]">
           {courses.map((course) => (
             <div key={course.id} className="flex flex-wrap items-center gap-3 px-5 py-4">
-              <span className="grid h-10 w-10 place-items-center rounded-xl bg-[var(--color-brand-soft)] text-xl">
-                {course.coverEmoji}
+              <span className="grid h-10 w-10 place-items-center rounded-xl bg-[var(--color-brand-soft)] text-[var(--color-brand-dark)]">
+                <CourseIcon slug={course.slug} className="h-5 w-5" />
               </span>
 
               <div className="min-w-0 flex-1">
@@ -78,7 +79,7 @@ export default async function AdminCoursesPage() {
       </section>
 
       <p className="text-xs text-[var(--color-ink-soft)]">
-        Kelas yang sudah punya transaksi tidak dihapus permanen — hanya disembunyikan, supaya
+        Kelas yang sudah punya transaksi tidak dihapus permanen, hanya disembunyikan, supaya
         riwayat pendaftaran tetap utuh.
       </p>
     </div>

@@ -43,7 +43,7 @@ export default async function AdminDashboardPage() {
           href="/"
           className="rounded-lg border border-[var(--color-line)] bg-white px-3 py-2 text-sm hover:border-[var(--color-brand)]"
         >
-          Lihat website ↗
+          Lihat website
         </Link>
       </header>
 
@@ -62,7 +62,7 @@ export default async function AdminDashboardPage() {
           <div className="flex items-center justify-between border-b border-[var(--color-line)] px-5 py-4">
             <h2 className="font-medium">Pendaftaran terbaru</h2>
             <Link href="/admin/peserta" className="text-sm text-[var(--color-brand-dark)]">
-              Semua →
+              Semua
             </Link>
           </div>
 
