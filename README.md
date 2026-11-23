@@ -18,7 +18,9 @@ Backend: **Route Handlers Next.js + Prisma ORM + PostgreSQL** (bukan Firebase)
 - Halaman pembayaran (mock gateway) dan halaman invoice untuk cek status.
 - Halaman artikel (list & detail) yang isinya dikelola dari CMS.
 - **Area peserta (LMS)**: masuk dengan email + nomor invoice yang sudah lunas, lalu membuka
-  materi per modul (`/kelas-saya`). Akses dibatasi di server: hanya invoice `PAID` milik email
+  materi per modul (`/kelas-saya`). Dashboard peserta menampilkan jumlah kelas, modul selesai,
+  progress total, dan tombol lanjut belajar; tiap modul bisa ditandai selesai
+  (tabel `LessonProgress`). Akses dibatasi di server: hanya invoice `PAID` milik email
   tersebut yang bisa membuka materi.
 
 ### CMS admin (`/admin`)
@@ -326,7 +328,7 @@ Dockerfile · docker-compose.yml · docker-entrypoint.sh
 ## 11. Keterbatasan & langkah berikutnya
 
 - Materi LMS berasal dari silabus saat seed; editor materi di CMS belum dibuat.
-- Belum ada progress tracking, kuis, atau sertifikat otomatis.
+- Kuis dan sertifikat otomatis belum ada; progres modul sudah tersimpan per peserta.
 - Mock gateway tidak memverifikasi tanda tangan kriptografis (Midtrans asli memakai
   `signature_key`); adaptor Midtrans tinggal ditambah verifikasi tersebut.
 - Belum ada rate limiting pada endpoint checkout/login.
@@ -368,6 +370,7 @@ Dijalankan pada mesin pengembangan (Windows 11, Node 22.23, Docker Desktop, Post
 | LMS: login email + invoice lunas | ✅ `{"ok":true}` → `/kelas-saya` 200, 6 modul terbaca |
 | LMS: invoice palsu | ✅ `401` |
 | LMS: buka materi tanpa login | ✅ `307` ke `/kelas-saya` |
+| LMS: tandai 2 modul selesai | ✅ progress dashboard 0% → **33%** (2/6), tombol jadi “Lanjut belajar” |
 | Login CMS via IP LAN (`http://192.168.x.x:3015`) | ✅ redirect ke `/admin`, cookie `Secure=false` |
 
 > n8n diuji pada instance terpisah (port 5679, profil `automation`) supaya tidak
