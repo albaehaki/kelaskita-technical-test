@@ -137,7 +137,10 @@ docker compose --profile automation up -d
 
 | Peran | Email | Password |
 |---|---|---|
-| Admin CMS | `admin@kelaskita.test` | `Admin123!` |
+| Admin CMS | `admin@kelaskita.test` | `Admin123!` (dari `ADMIN_PASSWORD` di `.env`) |
+
+> Password admin **tidak ada di source code**. Nilai di atas berasal dari `.env.example`
+> dan dibuat saat seed. Ganti sebelum deploy — seed hanya membuat admin bila belum ada.
 
 ---
 
@@ -148,6 +151,8 @@ docker compose --profile automation up -d
 | `DATABASE_URL` | ✅ | — | Koneksi PostgreSQL |
 | `SESSION_SECRET` | ✅ | — | Kunci tanda tangan JWT session admin |
 | `COOKIE_SECURE` | — | otomatis | `true`/`false` untuk memaksa flag Secure; kosong = deteksi dari `x-forwarded-proto` |
+| `ADMIN_EMAIL` | — | `admin@kelaskita.test` | Email admin yang dibuat saat seed |
+| `ADMIN_PASSWORD` | ✅ (saat seed) | — | Password admin awal. **Tidak ditulis di kode**, wajib di `.env` |
 | `APP_URL` | — | `http://localhost:3015` | Base URL aplikasi |
 | `PAYMENT_PROVIDER` | — | `mock` | `mock`, `midtrans`, atau `xendit` |
 | `PAYMENT_CALLBACK_TOKEN` | ✅ | — | Shared token untuk `POST /api/payments/webhook` |

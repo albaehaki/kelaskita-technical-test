@@ -32,7 +32,7 @@
         "sendHeaders": true,
         "headerParameters": {
           "parameters": [
-            { "name": "x-internal-secret", "value": "internal-secret-demo" }
+            { "name": "x-internal-secret", "value": "={{ $env.INTERNAL_SECRET }}" }
           ]
         },
         "sendBody": true,

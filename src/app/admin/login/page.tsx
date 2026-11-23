@@ -26,7 +26,7 @@ export default async function AdminLoginPage() {
         </div>
 
         <p className="mt-4 text-center text-xs text-[var(--color-ink-soft)]">
-          Demo: admin@kelaskita.test / Admin123!
+          Kredensial demo tersedia di README (tidak ditampilkan di halaman publik).
         </p>
       </div>
     </main>

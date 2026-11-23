@@ -170,19 +170,26 @@ const articles = [
 async function main() {
   console.log("🌱 Seeding database...");
 
-  const adminEmail = "admin@kelaskita.test";
+  // Kredensial admin TIDAK ditulis di kode. Wajib dari environment.
+  const adminEmail = process.env.ADMIN_EMAIL ?? "admin@kelaskita.test";
+  const adminPassword = process.env.ADMIN_PASSWORD;
   const existingAdmin = await prisma.user.findUnique({ where: { email: adminEmail } });
 
   if (!existingAdmin) {
+    if (!adminPassword) {
+      throw new Error(
+        "ADMIN_PASSWORD belum diisi. Set di .env (lihat .env.example) sebelum menjalankan seed."
+      );
+    }
     await prisma.user.create({
       data: {
         name: "Admin KelasKita",
         email: adminEmail,
-        passwordHash: await bcrypt.hash("Admin123!", 10),
+        passwordHash: await bcrypt.hash(adminPassword, 10),
         role: "ADMIN",
       },
     });
-    console.log("  ✓ admin dibuat");
+    console.log("  ✓ admin dibuat dari ADMIN_EMAIL/ADMIN_PASSWORD");
   } else {
     console.log("  • admin sudah ada, dilewati");
   }
