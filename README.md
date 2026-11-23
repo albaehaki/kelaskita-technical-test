@@ -20,7 +20,9 @@ Backend: **Route Handlers Next.js + Prisma ORM + PostgreSQL** (bukan Firebase)
 - **Area peserta (LMS)**: masuk dengan email + nomor invoice yang sudah lunas, lalu membuka
   materi per modul (`/kelas-saya`). Dashboard peserta menampilkan jumlah kelas, modul selesai,
   progress total, dan tombol lanjut belajar; tiap modul bisa ditandai selesai
-  (tabel `LessonProgress`). Akses dibatasi di server: hanya invoice `PAID` milik email
+  (tabel `LessonProgress`). Saat seluruh modul selesai, **sertifikat terbit otomatis**
+  (tabel `Certificate`) dan bisa dicetak/disimpan PDF, dengan halaman verifikasi publik
+  `/verifikasi/[kode]` tanpa login. Akses dibatasi di server: hanya invoice `PAID` milik email
   tersebut yang bisa membuka materi.
 
 ### CMS admin (`/admin`)
@@ -266,7 +268,8 @@ src/
     bayar/[invoice]/     # mock payment page
     invoice/[invoice]/   # status invoice
     artikel/             # blog publik
-    kelas-saya/          # area peserta (LMS): daftar kelas + materi per modul
+    kelas-saya/          # area peserta (LMS): dashboard, materi, sertifikat
+    verifikasi/[code]/   # verifikasi sertifikat publik (tanpa login)
     admin/               # CMS (layout guard, dashboard, CRUD, server actions)
     api/                 # route handlers
   components/            # header, footer, course card, form, pay button, login
@@ -328,7 +331,7 @@ Dockerfile · docker-compose.yml · docker-entrypoint.sh
 ## 11. Keterbatasan & langkah berikutnya
 
 - Materi LMS berasal dari silabus saat seed; editor materi di CMS belum dibuat.
-- Kuis dan sertifikat otomatis belum ada; progres modul sudah tersimpan per peserta.
+- Kuis (penilaian) belum ada; sertifikat terbit berdasarkan penyelesaian seluruh modul.
 - Mock gateway tidak memverifikasi tanda tangan kriptografis (Midtrans asli memakai
   `signature_key`); adaptor Midtrans tinggal ditambah verifikasi tersebut.
 - Belum ada rate limiting pada endpoint checkout/login.
@@ -371,6 +374,7 @@ Dijalankan pada mesin pengembangan (Windows 11, Node 22.23, Docker Desktop, Post
 | LMS: invoice palsu | ✅ `401` |
 | LMS: buka materi tanpa login | ✅ `307` ke `/kelas-saya` |
 | LMS: tandai 2 modul selesai | ✅ progress dashboard 0% → **33%** (2/6), tombol jadi “Lanjut belajar” |
+| LMS: selesaikan 6/6 modul | ✅ sertifikat terbit otomatis (`KK-CERT-…`), halaman cetak & verifikasi publik 200 |
 | Login CMS via IP LAN (`http://192.168.x.x:3015`) | ✅ redirect ke `/admin`, cookie `Secure=false` |
 
 > n8n diuji pada instance terpisah (port 5679, profil `automation`) supaya tidak

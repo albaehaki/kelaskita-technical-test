@@ -34,8 +34,24 @@ export async function toggleLessonAction(enrollmentId: string, lessonId: string)
     await prisma.lessonProgress.delete({ where: { id: existing.id } });
   } else {
     await prisma.lessonProgress.create({ data: { enrollmentId, lessonId } });
+
+    // Semua modul selesai → terbitkan sertifikat (sekali, idempotent).
+    const [totalLessons, doneLessons] = await Promise.all([
+      prisma.lesson.count({ where: { courseId: enrollment.courseId } }),
+      prisma.lessonProgress.count({ where: { enrollmentId } }),
+    ]);
+
+    if (totalLessons > 0 && doneLessons >= totalLessons) {
+      const code = `KK-CERT-${enrollment.invoiceNo.replace(/^KK-/, "")}`;
+      await prisma.certificate.upsert({
+        where: { enrollmentId },
+        update: {},
+        create: { enrollmentId, code },
+      });
+    }
   }
 
   revalidatePath("/kelas-saya");
   revalidatePath(`/kelas-saya/${enrollment.course.slug}`);
+  revalidatePath(`/kelas-saya/${enrollment.course.slug}/sertifikat`);
 }

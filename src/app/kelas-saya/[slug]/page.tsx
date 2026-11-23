@@ -72,6 +72,25 @@ export default async function StudentCoursePage({
         </div>
 
         <section className="mt-6 space-y-3">
+          {percent === 100 && (
+            <div className="flex flex-wrap items-center justify-between gap-3 rounded-2xl bg-[var(--color-brand-soft)] px-5 py-4">
+              <div>
+                <p className="text-sm font-semibold text-[var(--color-brand-dark)]">
+                  Selamat — semua modul selesai! 🎉
+                </p>
+                <p className="mt-0.5 text-xs text-[var(--color-brand-dark)]/80">
+                  Sertifikat penyelesaian sudah bisa dilihat dan dicetak.
+                </p>
+              </div>
+              <Link
+                href={`/kelas-saya/${course.slug}/sertifikat`}
+                className="rounded-xl bg-[var(--color-brand)] px-4 py-2 text-sm font-medium text-white hover:bg-[var(--color-brand-dark)]"
+              >
+                Buka sertifikat
+              </Link>
+            </div>
+          )}
+
           {course.lessons.map((lesson) => {
             const isDone = doneIds.has(lesson.id);
 

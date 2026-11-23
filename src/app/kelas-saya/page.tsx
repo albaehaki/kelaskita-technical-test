@@ -143,12 +143,22 @@ export default async function KelasSayaPage() {
                       </div>
                     </div>
 
-                    <Link
-                      href={`/kelas-saya/${enrollment.course.slug}`}
-                      className="rounded-xl bg-[var(--color-brand)] px-4 py-2 text-sm font-medium text-white hover:bg-[var(--color-brand-dark)]"
-                    >
-                      {done === 0 ? "Mulai belajar" : finished ? "Ulangi materi" : "Lanjut belajar"}
-                    </Link>
+                    <div className="flex flex-col gap-2">
+                      <Link
+                        href={`/kelas-saya/${enrollment.course.slug}`}
+                        className="rounded-xl bg-[var(--color-brand)] px-4 py-2 text-center text-sm font-medium text-white hover:bg-[var(--color-brand-dark)]"
+                      >
+                        {done === 0 ? "Mulai belajar" : finished ? "Ulangi materi" : "Lanjut belajar"}
+                      </Link>
+                      {finished && (
+                        <Link
+                          href={`/kelas-saya/${enrollment.course.slug}/sertifikat`}
+                          className="rounded-xl border border-[var(--color-brand)] px-4 py-2 text-center text-sm font-medium text-[var(--color-brand-dark)] hover:bg-[var(--color-brand-soft)]"
+                        >
+                          Lihat sertifikat
+                        </Link>
+                      )}
+                    </div>
                   </div>
                 </article>
               );

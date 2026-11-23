@@ -106,6 +106,7 @@ model Enrollment {
   course      Course           @relation(fields: [courseId], references: [id])
   payment     Payment?
   progress    LessonProgress[]
+  certificate Certificate?
   paidAt      DateTime?
   createdAt   DateTime         @default(now())
 
@@ -133,6 +134,16 @@ model WebhookEvent {
   source      String
   payload     Json
   processedAt DateTime @default(now())
+}
+
+/// Sertifikat terbit saat seluruh modul kelas selesai.
+/// `code` dipakai untuk verifikasi publik tanpa login.
+model Certificate {
+  id           String     @id @default(cuid())
+  code         String     @unique
+  enrollmentId String     @unique
+  enrollment   Enrollment @relation(fields: [enrollmentId], references: [id], onDelete: Cascade)
+  issuedAt     DateTime   @default(now())
 }
 
 model Article {
