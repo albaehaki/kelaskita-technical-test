@@ -72,9 +72,23 @@ model Lesson {
   content   String
   order     Int      @default(0)
   createdAt DateTime @default(now())
+  progress  LessonProgress[]
 
   @@unique([courseId, order])
   @@index([courseId])
+}
+
+/// Progres peserta per modul — dasar dashboard LMS.
+model LessonProgress {
+  id           String     @id @default(cuid())
+  enrollmentId String
+  lessonId     String
+  enrollment   Enrollment @relation(fields: [enrollmentId], references: [id], onDelete: Cascade)
+  lesson       Lesson     @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+  completedAt  DateTime   @default(now())
+
+  @@unique([enrollmentId, lessonId])
+  @@index([enrollmentId])
 }
 
 model Enrollment {
@@ -91,6 +105,7 @@ model Enrollment {
   courseId    String
   course      Course           @relation(fields: [courseId], references: [id])
   payment     Payment?
+  progress    LessonProgress[]
   paidAt      DateTime?
   createdAt   DateTime         @default(now())
 

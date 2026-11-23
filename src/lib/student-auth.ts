@@ -65,11 +65,12 @@ export async function requireStudent(): Promise<string> {
   return email;
 }
 
-/** Semua pendaftaran lunas milik satu email. */
+/** Semua pendaftaran lunas milik satu email, lengkap dengan progres modul. */
 export async function getStudentEnrollments(email: string) {
   return prisma.enrollment.findMany({
     where: { email: email.toLowerCase(), status: "PAID" },
     include: {
+      progress: { select: { lessonId: true } },
       course: {
         include: {
           category: true,
